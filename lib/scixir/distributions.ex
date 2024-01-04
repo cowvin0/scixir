@@ -3,8 +3,11 @@ defmodule Scixir.Distributions do
 
   def pdf_norm(x, mu, sd) do
     pi = :math.pi()
-    expon = - Math.pow((x - mu) / sd, 2)) / 2
+    expon = - Math.pow((x - mu) / sd, 2) / 2
     denom = 1 / (sd * Math.pow(2 * pi, 0.5))
-    :math.e(expon) * denom
+    :math.exp(expon) * denom
+  end
+
+  def pdf_gamma(x, alpha, beta) do 
   end
 end
