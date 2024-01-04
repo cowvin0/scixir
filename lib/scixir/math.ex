@@ -27,6 +27,10 @@ defmodule Scixir.Math do
     log_local(x, base)
   end
 
+  def log1p(x, base \\ e()) do
+    log_local(1 + x, base)
+  end
+
   defp log_local(x, base) when x <= 0 or base == 1 or base < 0 do
     raise ArithmeticError, message: "x and base must be positive and base different of 1"
   end
@@ -34,5 +38,7 @@ defmodule Scixir.Math do
   defp log_local(x, base) do
     :math.log10(x) / :math.log10(base)
   end
+
+  defdelegate exp(x), to: :math
 
 end
