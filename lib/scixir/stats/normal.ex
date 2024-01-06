@@ -40,7 +40,7 @@ defmodule Scixir.Stats.Normal do
     ppf(1 - q, mu, sigma)
   end
 
-  defn entropy(mu \\ 0, sigma \\ 1) do
+  defn entropy(_mu \\ 0, sigma \\ 1) do
     Nx.log(2 * pi() * e() * sigma ** 2) / 2 
   end
 
