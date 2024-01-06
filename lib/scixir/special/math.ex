@@ -1,4 +1,4 @@
-defmodule Scixir.Math do
+defmodule Scixir.Special do
   @e :math.exp(1)
   @pi :math.pi()
 
