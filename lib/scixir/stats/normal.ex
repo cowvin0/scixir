@@ -1,63 +1,73 @@
-defmodule Scixir.Stats.Normal do
+defmodule Scixir.Stats.Norm do
   import Nx.Constants
   import Nx.Defn
+  alias Scixir.Utils
 
-  @spec pdf([number], number, number) :: number
-  defn pdf(x, mu \\ 0, sigma \\ 1) do
-    x = Nx.tensor(x)
+  def pdf(x, loc \\ 0, scale \\ 1) do
+    Utils.generic_func(&pdf_nx/3, x, loc, scale)
+  end
+
+  defnp pdf_nx(x, loc, scale) do
     pi = pi()
-    expon = - Nx.pow((x - mu) / sigma, 2) / 2
-    denom = 1 / (sigma * (2 * pi) ** 0.5)
+    expon = - Nx.pow((x - loc) / scale, 2) / 2
+    denom = 1 / (scale * (2 * pi) ** 0.5)
     Nx.exp(expon) * denom
   end
 
+  def cdf(x, loc \\ 0, scale \\ 1) do
+    Utils.generic_func(&cdf_nx/3, x, loc, scale)
+  end
 
-  defn cdf(x, mu \\ 0, sigma \\ 1) do
-    x = Nx.tensor(x)
-    quoc = (x - mu) / (sigma * Nx.sqrt(2))
+  defnp cdf_nx(x, loc, scale) do
+    quoc = (x - loc) / (scale * Nx.sqrt(2))
     (1 + Nx.erf(quoc)) / 2
   end
 
-  defn ppf(q, mu \\ 0, sigma \\ 1) do
-    q = Nx.tensor(q)
-    mu + sigma * Nx.sqrt(2) * Nx.erf_inv(2 * q - 1) 
+  def ppf(q, loc \\ 0, scale \\ 1) do
+    Utils.generic_func(&ppf_nx/3, q, loc, scale)
   end
 
-  defn logpdf(x, mu \\ 0, sigma \\ 1) do
-    pdf(x, mu, sigma) |> Nx.log()
+  defnp ppf_nx(q, loc, scale) do
+    loc + scale * Nx.sqrt(2) * Nx.erf_inv(2 * q - 1) 
   end
 
-  defn logcdf(x, mu \\ 0, sigma \\ 1) do
-    cdf(x, mu, sigma) |> Nx.log()
+  def logpdf(x, loc \\ 0, scale \\ 1) do
+    pdf(x, loc, scale) |> Nx.log()
   end
 
-  defn sf(x, mu \\ 0, sigma \\ 1) do
-    1 - cdf(x, mu, sigma)
+  def logcdf(x, loc \\ 0, scale \\ 1) do
+    cdf(x, loc, scale) |> Nx.log()
   end
 
-  defn isf(q, mu \\ 0, sigma \\ 1) do
-    q = Nx.tensor(q)
-    ppf(1 - q, mu, sigma)
+  def sf(x, loc \\ 0, scale \\ 1) do
+    Nx.subtract(1, cdf(x, loc, scale))
   end
 
-  defn entropy(_mu \\ 0, sigma \\ 1) do
-    Nx.log(2 * pi() * e() * sigma ** 2) / 2 
+  def isf(q, loc \\ 0, scale \\ 1) do
+    Utils.generic_func(&isf_nx/3, q, loc, scale)
   end
 
-  defn mean(mu \\ 0, _sigma \\ 1) do
-    mu
+  defp isf_nx(q, loc, scale) do
+    ppf(Nx.subtract(1, q), loc, scale)
   end
 
-  defn median(mu \\ 0, _sigma \\ 1) do
-    mu
+  defn entropy(_loc \\ 0, scale \\ 1) do
+    Nx.log(2 * pi() * e() * scale ** 2) / 2 
   end
 
-  defn var(_mu \\ 0, sigma \\ 1) do
-    sigma ** 2
+  defn mean(loc \\ 0, _scale \\ 1) do
+    loc 
   end
 
-  defn std(_mu \\ 0, sigma \\ 1) do
-    sigma
+  defn median(loc \\ 0, _scale \\ 1) do
+    loc
+  end
+
+  defn var(_loc \\ 0, scale \\ 1) do
+    scale ** 2
+  end
+
+  defn std(_loc \\ 0, scale \\ 1) do
+    scale
   end 
-
 end
