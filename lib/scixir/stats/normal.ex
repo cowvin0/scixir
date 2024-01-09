@@ -4,7 +4,7 @@ defmodule Scixir.Stats.Norm do
   alias Scixir.Utils
 
   def pdf(x, loc \\ 0, scale \\ 1) do
-    Utils.generic_func(&pdf_nx/3, x, loc, scale)
+    Utils.generic_func(&pdf_nx/3, [x, loc, scale])
   end
 
   defnp pdf_nx(x, loc, scale) do
@@ -15,7 +15,7 @@ defmodule Scixir.Stats.Norm do
   end
 
   def cdf(x, loc \\ 0, scale \\ 1) do
-    Utils.generic_func(&cdf_nx/3, x, loc, scale)
+    Utils.generic_func(&cdf_nx/3, [x, loc, scale])
   end
 
   defnp cdf_nx(x, loc, scale) do
@@ -24,7 +24,7 @@ defmodule Scixir.Stats.Norm do
   end
 
   def ppf(q, loc \\ 0, scale \\ 1) do
-    Utils.generic_func(&ppf_nx/3, q, loc, scale)
+    Utils.generic_func(&ppf_nx/3, [q, loc, scale])
   end
 
   defnp ppf_nx(q, loc, scale) do
@@ -44,7 +44,7 @@ defmodule Scixir.Stats.Norm do
   end
 
   def isf(q, loc \\ 0, scale \\ 1) do
-    Utils.generic_func(&isf_nx/3, q, loc, scale)
+    Utils.generic_func(&isf_nx/3, [q, loc, scale])
   end
 
   defp isf_nx(q, loc, scale) do

@@ -1,9 +1,15 @@
 defmodule Scixir.Utils do
-  def generic_func(func, x, loc, scale) when is_list(x) do
-    func.(Nx.tensor(x), loc, scale)
+
+  def generic_func(func, args) do
+    args = Enum.map(args, fn x -> 
+      cond do
+        is_list(x) -> 
+          Nx.tensor(x)
+        true -> 
+          x
+      end
+    end)
+    apply(func, args)
   end
 
-  def generic_func(func, x, loc, scale) do
-    func.(x, loc, scale)
-  end
 end
