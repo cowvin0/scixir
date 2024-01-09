@@ -1,5 +1,6 @@
 defmodule Scixir.Stats.Gompertz do
   import Nx.Defn
+  import Nx.Constants
   alias Scixir.Utils
 
   def pdf(x, loc \\ 0, scale \\ 1) do
@@ -12,6 +13,12 @@ defmodule Scixir.Stats.Gompertz do
     exp_outer = Nx.exp(scalex - loc / scale * exp_inner)
     loc * exp_outer
   end
+
+  def my_function(%{arg1: arg1_value, arg2: arg2_value}) do
+    IO.inspect(arg1_value)
+    IO.inspect(arg2_value)
+  end
+
 
   @spec logpdf([number], number, number) :: number
   defn logpdf(x, loc \\ 1, scale \\ 1) do
