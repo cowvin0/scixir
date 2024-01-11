@@ -1,8 +1,4 @@
 defmodule Scixir.Utils do
-<<<<<<< HEAD
-  def generic_func(func, x, opt) when is_list(x) do
-    func.(Nx.tensor(x), opt)
-=======
 
   def generic_func(func, args) do
     args = Enum.map(args, fn x -> 
@@ -14,7 +10,6 @@ defmodule Scixir.Utils do
       end
     end)
     apply(func, args)
->>>>>>> refs/remotes/origin/main
   end
 
 end
