@@ -8,39 +8,42 @@ defmodule Scixir.Special do
   end
 
   defnp gamma_nx(x) do
+    x = Nx.as_type(x, :f64)
 
-    g = 7
+    which_x = fn x_less -> 
+      g = 7 |> Nx.as_type(:f64)
 
-    p = Nx.tensor([
-        0.99999999999980993,
-        676.5203681218851,
-        -1259.1392167224028,
-        771.32342877765313,
-        -176.61502916214059,
-        12.507343278686905,
-        -0.13857109526572012,
-        9.9843695780195716e-6,
-        1.5056327351493116e-7
-    ])
+      p = Nx.tensor([
+          0.99999999999980993,
+          676.5203681218851,
+          -1259.1392167224028,
+          771.32342877765313,
+          -176.61502916214059,
+          12.507343278686905,
+          -0.13857109526572012,
+          9.9843695780195716e-6,
+          1.5056327351493116e-7
+      ], type: :f64)
 
-    result = 
-      while acum = 0, i <- x, unroll: true do
-        
-      end
+      z = x_less - 1
+      xs = 
+        while acc = Nx.as_type(0.0, :f64), i <- Nx.linspace(1, 8, n: 8, type: :u8), unroll: true do
+          acc + p[i] / (z + i) 
+        end
+      
+      t = z + g + 0.5
+      x_less = p[0] + xs
+      over = (z + 0.5) * Nx.log(t) - t + Nx.log(x_less)
+
+      Nx.sqrt(2 * pi()) * Nx.exp(over)
+    end
 
     if x < 0.5 do
-      pi() / (Nx.sin(pi() * x) * gamma_nx(1 - x))
+      pi() / (Nx.sin(pi() * x) * which_x.(1 - x))
     else
-      z = x - 1
-      xs = while acc = 0.0, i <- Nx.linspace(1, 8, n: 8, type: :u8), unroll: true do
-        acc + p[i] / (z + i)
-      end
-      x = p[0] + xs
-      t = z + g + 0.5
-      Nx.sqrt(2 * pi()) * Nx.pow(t, z + 0.5) * Nx.exp(- 1 * t) * x
+      which_x.(x)
     end
   end
-
 
   @spec beta(number, number) :: number
   def beta(a, b) do
