@@ -23,8 +23,13 @@ defmodule Scixir.Special do
         1.5056327351493116e-7
     ])
 
+    result = 
+      while acum = 0, i <- x, unroll: true do
+        
+      end
+
     if x < 0.5 do
-      pi() / (Nx.sin(pi() * x)) * gamma_nx(1 - x))
+      pi() / (Nx.sin(pi() * x) * gamma_nx(1 - x))
     else
       z = x - 1
       xs = while acc = 0.0, i <- Nx.linspace(1, 8, n: 8, type: :u8), unroll: true do
