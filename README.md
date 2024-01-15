@@ -1,4 +1,6 @@
-# Scixir
+![](scixir.png)
+
+Scixir is a Elixir library for optimization, statistics, mathematics and numerical methods.
 
 **TODO: Add description**
 
