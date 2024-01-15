@@ -1,7 +1,6 @@
+<img src="scixir.png" alt="drawing" width="200"/>
 
-
-![drawing](scixir.png){width=150} Scixir is a Elixir library for optimization, statistics, mathematics and numerical methods.
-
+Scixir is a Elixir library for optimization, statistics, mathematics and numerical methods.
 
 **TODO: Add description**
 
